@@ -20,8 +20,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomeState extends State<HomePage> with SingleTickerProviderStateMixin {
-  final _authenticationBloc = getIt<AuthenticationBloc>();
-
   User get user => widget.user;
 
   TabController _tabController;
@@ -56,17 +54,6 @@ class _HomeState extends State<HomePage> with SingleTickerProviderStateMixin {
           controller: _tabController,
         ),
       ),
-      appBar: AppBar(
-        title: Text('Home'),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.exit_to_app),
-            onPressed: () {
-              _authenticationBloc.add(LoggedOut());
-            },
-          ),
-        ],
-      ),
       body: _tabBarPages(),
     );
   }
@@ -76,7 +63,7 @@ class _HomeState extends State<HomePage> with SingleTickerProviderStateMixin {
       controller: _tabController,
       children: <Widget>[
         Text('Recent conversation page !'),
-        FriendListPage(user),
+        FriendListPage(user.uid),
         Text('Group friend page!'),
         SettingPage(user),
       ],

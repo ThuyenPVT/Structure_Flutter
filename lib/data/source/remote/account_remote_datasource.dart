@@ -4,22 +4,15 @@ import 'package:structure_flutter/data/entities/account.dart';
 
 abstract class AccountRemoteDataSource {
   Future<void> createUser(
-    String uid,
-    String name,
-    String email,
-    String imageURL,
-  );
-
-  Future<void> sendFriendRequest({
-    String currentID,
-    String recipientID,
-    String name,
-    bool pending,
-  });
+      String uid,
+      String name,
+      String email,
+      String imageURL,
+      );
 
   Future<List<Account>> getUsersByName(String searchName);
 
-  Future<List<Account>> getListFriendAccount();
+  Future<List<Account>> getUsers(String searchName);
 }
 
 @Singleton(as: AccountRemoteDataSource)
@@ -28,11 +21,11 @@ class AccountRemoteDataSourceImpl implements AccountRemoteDataSource {
 
   @override
   Future<void> createUser(
-    String uid,
-    String name,
-    String email,
-    String imageURL,
-  ) async {
+      String uid,
+      String name,
+      String email,
+      String imageURL,
+      ) async {
     try {
       return await _userCollection.doc(uid).set({
         "id": uid,
@@ -45,33 +38,17 @@ class AccountRemoteDataSourceImpl implements AccountRemoteDataSource {
   }
 
   @override
-  Future<void> sendFriendRequest({
-    String currentID,
-    String recipientID,
-    String name,
-    bool pending,
-  }) async {
-    try {
-      return await _userCollection
-          .doc(currentID)
-          .collection("Friends")
-          .doc(recipientID)
-          .set({"name": name, "pending": pending});
-    } catch (_) {}
-  }
-
-  @override
   Future<List<Account>> getUsersByName(String searchName) async {
-    var _ref = _userCollection
+    var _userRef = _userCollection
         .where("name", isGreaterThanOrEqualTo: searchName)
         .where("name", isLessThan: searchName + 'z');
-    final _snapshot = await _ref.get();
+    final _snapshot = await _userRef.get();
     return _snapshot.docs.map((doc) => Account.fromFireStore(doc)).toList();
   }
 
   @override
-  Future<List<Account>> getListFriendAccount() async {
-    final _snapshot = await _userCollection.get();
-    return _snapshot.docs.map((doc) => Account.fromFireStore(doc)).toList();
+  Future<List<Account>> getUsers(String searchName) {
+    // TODO: implement getUsers
+    throw UnimplementedError();
   }
 }

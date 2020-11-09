@@ -25,6 +25,10 @@ class AppIcons {
   static const setting_blue = Icon(Icons.settings, color: Colors.blue);
   static const assignment_blue = Icon(Icons.assignment, color: Colors.blue);
 
+  static const notification_important = Icon(Icons.notification_important);
+  static const menu = Icon(Icons.menu);
+  static const account_box_rounded = Icon(Icons.account_box_rounded);
+
   static const account_balance_wallet_blue = Icon(
     Icons.account_balance_wallet,
     color: Colors.blue,
